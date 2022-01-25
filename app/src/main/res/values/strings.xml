@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Muzlib</string>
+    <string name="liner">:</string>
+    <string name="toast_home">Что-то пошло не так</string>
+    <string name="toast_details">Проверьте интернет соединение</string>
+
+</resources>

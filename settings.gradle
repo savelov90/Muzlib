@@ -1,0 +1,2 @@
+rootProject.name = "Muzlib"
+include ':app'
