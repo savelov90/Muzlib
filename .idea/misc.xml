@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Muzlib/app/src/main/res/layout/activity_main.xml" value="0.13020833333333334" />
+        <entry key="..\:/Muzlib/app/src/main/res/layout/album_item.xml" value="0.13020833333333334" />
+        <entry key="..\:/Muzlib/app/src/main/res/layout/fragment_details.xml" value="0.13020833333333334" />
+        <entry key="..\:/Muzlib/app/src/main/res/layout/fragment_home.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Eugene/AndroidStudioProjects/Muzlib/app/src/main/res/layout/activity_main.xml" value="0.246875" />
         <entry key="..\:/Users/Eugene/AndroidStudioProjects/Muzlib/app/src/main/res/layout/album_item.xml" value="0.6445366528354081" />
         <entry key="..\:/Users/Eugene/AndroidStudioProjects/Muzlib/app/src/main/res/layout/fragment_details.xml" value="0.2185916919959473" />

@@ -6,17 +6,22 @@ import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+private const val SEARCH = "search"
+private const val LOOKUP = "lookup"
+private const val TERM = "term"
+private const val ENTITY = "entity"
+private const val ID = "id"
 
 interface AlbumsApi {
-    @GET("search")
+    @GET(SEARCH)
     fun getAlbums(
-        @Query("term") searchResult: String,
-        @Query("entity") album: String
+        @Query(TERM) searchResult: String,
+        @Query(ENTITY) album: String
     ): Observable<SearchAlbums>
 
-    @GET("lookup")
+    @GET(LOOKUP)
     fun getTracks(
-        @Query("id") album: String,
-        @Query("entity") track: String
+        @Query(ID) album: String,
+        @Query(ENTITY) track: String
     ): Observable<SearchTracks>
 }

@@ -27,6 +27,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+private const val PADDING = 10
+
 class HomeFragment : Fragment() {
 
     private lateinit var albumsAdapter: AlbumsListRecyclerAdapter
@@ -64,7 +66,7 @@ class HomeFragment : Fragment() {
                 })
             adapter = albumsAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            val decorator = TopSpacingItemDecoration(10)
+            val decorator = TopSpacingItemDecoration(PADDING)
             addItemDecoration(decorator)
         }
     }
@@ -95,19 +97,21 @@ class HomeFragment : Fragment() {
             }
             .debounce(1200, TimeUnit.MILLISECONDS)
             .filter {
-                //Если в поиске пустое поле, возвращаем последний загруженный список альбомов
                 getLastSavedAlbums()
                 it.isNotBlank()
             }
             .flatMap {
-                println("hdsfdhsfhjsd")
                 viewModel.getAlbums(it)
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onError = {
-                    Toast.makeText(requireContext(), getString(R.string.toast_home), Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.toast_home),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 },
                 onNext = {

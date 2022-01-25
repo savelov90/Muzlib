@@ -8,6 +8,8 @@ import com.example.muzlib.databinding.ActivityMainBinding
 import com.example.muzlib.view.fragments.DetailsFragment
 import com.example.muzlib.view.fragments.HomeFragment
 
+private const val KEY = "album"
+
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     fun launchDetailsFragment(resultAlbums: ResultAlbums) {
         val bundle = Bundle()
-        bundle.putParcelable("album", resultAlbums)
+        bundle.putParcelable(KEY, resultAlbums)
         val fragment = DetailsFragment()
         fragment.arguments = bundle
 

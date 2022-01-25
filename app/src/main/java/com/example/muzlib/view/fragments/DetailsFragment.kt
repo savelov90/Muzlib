@@ -21,6 +21,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+private const val KEY = "album"
 
 class DetailsFragment : Fragment() {
 
@@ -43,22 +44,24 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         autoDisposable.bindTo(lifecycle)
-        //настраиваем views экрана с деталями альбома
         setAlbumsDetails()
     }
 
     @SuppressLint("SetTextI18n")
     private fun setAlbumsDetails() {
-        album = arguments?.getParcelable<ResultAlbums>("album") as ResultAlbums
+        album = arguments?.getParcelable<ResultAlbums>(KEY) as ResultAlbums
 
         allTracks = viewModel.getTracks(album.collectionId.toString())
         allTracks.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onError = {
-                    Toast.makeText(requireContext(), getString(R.string.toast_details), Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.toast_details),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
-                    println("")
                 },
                 onNext = {
                     setTrackNames(it)
