@@ -12,15 +12,12 @@ import com.squareup.picasso.Picasso
 class AlbumsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val albumItemBinding = AlbumItemBinding.bind(itemView)
-
-    //Привязываем view из layout к переменным
     private val name = albumItemBinding.name
     private val artist = albumItemBinding.artist
     private val date = albumItemBinding.date
     private val picture = albumItemBinding.picture
     private val style = albumItemBinding.style
 
-    //В этом методе кладем данные из SearchAlbum в наши view
     fun bind(resultAlbums: ResultAlbums) {
         name.text = resultAlbums.collectionName
         artist.text = resultAlbums.artistName
