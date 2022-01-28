@@ -1,46 +1,43 @@
 package com.example.muzlib.interactor
 
 
-import com.example.muzlib.data.MainRepository
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.muzlib.R
 import com.example.muzlib.data.AlbumsApi
+import com.example.muzlib.data.MainRepository
 import com.example.muzlib.data.db.entity_search.ResultAlbums
-import com.example.muzlib.data.db.entity_track.ResultTracks
-import com.example.muzlib.data.preference.PreferenceProvider
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+private const val ALBUM_ENTITY = "album"
+private const val TRACK_ENTITY = "song"
 
 class Interactor(
     private val repo: MainRepository,
     private val retrofitService: AlbumsApi,
-    private val preferences: PreferenceProvider
 ) {
-    lateinit var albumsObservable: Observable<List<ResultAlbums>>
 
     fun getAlbumsFromApi(search: String): Observable<List<ResultAlbums>> {
 
-        albumsObservable = retrofitService.getAlbums(search, getDefaultEntityFromPreferences())
+        val result = retrofitService.getAlbums(search, ALBUM_ENTITY)
             .subscribeOn(Schedulers.io())
             .map { searchAlbums ->
                 val sortedAlbums = searchAlbums.results
                 sortedAlbums.sortedBy { it.collectionName }
+            }.doOnError {
+                println("Ошибка интернета или сервера")
             }
-
-        albumsObservable.subscribeBy(
-            onError = {
-
-            },
-            onNext = {
+            .doOnNext {
                 repo.deleteAll()
                 repo.putToDb(it)
             }
-        )
-        return albumsObservable
+        return result
     }
 
     fun getTracksFromApi(albumId: String): Observable<List<String>> = retrofitService
-        .getTracks(albumId, getTrackEntityFromPreferences())
+        .getTracks(albumId, TRACK_ENTITY)
         .subscribeOn(Schedulers.io())
         .map {
             it.results
@@ -52,9 +49,4 @@ class Interactor(
         }
 
     fun getAlbumsFromDB(): Observable<List<ResultAlbums>> = repo.getAllFromDB()
-
-    //Методы для получения настроек поиска
-    private fun getDefaultEntityFromPreferences() = preferences.getDefaultEntity()
-
-    private fun getTrackEntityFromPreferences() = preferences.getTrackEntity()
 }
